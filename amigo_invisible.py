@@ -24,19 +24,18 @@ restricciones = calcular_restricciones(participantes)
 participantes = [item for sublist in participantes for item in sublist]
 
 
-def print_solution(sol: dict[str, str]):
-    reagaladores_escritos = set()
-    for regalador, regalado in sol.items():
-        if regalador in reagaladores_escritos:
-            continue
-        siguiente_regalador = regalado
-        mensaje = f"A {regalador} le ha tocado {regalado}"
-        while siguiente_regalador != regalador:
-            siguiente_regalado = sol[siguiente_regalador]
-            mensaje += f"\nA {siguiente_regalador} le ha tocado {siguiente_regalado}"
-            siguiente_regalador = siguiente_regalado
-            reagaladores_escritos.add(siguiente_regalador)
-        print(mensaje)
+def print_solution(solucion: dict[str, str]):
+    regaladores_escritos = set()
+    regalador = next(iter(solucion))
+    while len(regaladores_escritos) < len(solucion):
+        if regalador in regaladores_escritos:
+            regalador = (solucion.keys() - regaladores_escritos).pop()
+        regalado = solucion[regalador]
+
+        regaladores_escritos.add(regalador)
+        print(f"A {regalador} le ha tocado {regalado}")
+
+        regalador = regalado
 
 
 def sorteo(regaladores: list[str], regalados: list[str], resultado: dict[str, str]):
